@@ -7,4 +7,3 @@ resources:
 - observability.yaml
 - secops.yaml
 - storage.yaml
-- system-upgrade.yaml
