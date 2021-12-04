@@ -7,5 +7,5 @@ resources:
   - helm-repos
   - cluster-settings.yaml
   - cluster-secrets.yaml
-  # - core.yaml
+  - core.yaml
   # - apps.yaml
