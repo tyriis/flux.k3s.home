@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: minecraft-bedrock
-      version: 1.1.9
+      version: 1.2.0
       sourceRef:
         kind: HelmRepository
         name: minecraft-server-charts
@@ -37,20 +37,20 @@ spec:
 
     resources:
       requests:
-        memory: 512Mi
-        cpu: 500m
+        memory: 1024Mi
+        cpu: 2000m
 
     minecraftServer:
       eula: "TRUE"
-      version: "1.17.11.01"
-      difficulty: hard
+      version: "1.18.1.02"
+      difficulty: easy
       gameMode: survival
-      levelSeed: "107016"
+      levelSeed: ""
       ops: "2535405985178539"
-      levelName: "jungle_fever"
+      levelName: "cliffs_caves_adventure"
       maxThreads: 0 # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
       cheats: true
-      serverName: "Jungle Fever"
+      serverName: "Cliffs and Caves"
       serviceType: LoadBalancer
 
     nodeSelector:
