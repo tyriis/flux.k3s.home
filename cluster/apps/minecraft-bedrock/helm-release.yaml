@@ -22,7 +22,6 @@ spec:
         kind: HelmRepository
         name: minecraft-server
         namespace: flux-system
-        reconcileStrategy: ChartVersion
   values:
     image: itzg/minecraft-bedrock-server
     imageTag: latest
