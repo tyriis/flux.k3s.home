@@ -44,13 +44,13 @@ spec:
           traefik.ingress.kubernetes.io/redirect-entry-point: https
           traefik.ingress.kubernetes.io/redirect-permanent: "true"
         hosts:
-          - host: "hass.${SECRET_DOMAIN}"
+          - host: "hass.home.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "hass.${SECRET_DOMAIN}"
+              - "hass.home.${SECRET_DOMAIN}"
             secretName: tls-cert
     probes:
       liveness:
@@ -84,13 +84,13 @@ spec:
         ingress:
           enabled: true
           hosts:
-            - host: "hass-config.${SECRET_DOMAIN}"
+            - host: "hass-config.home.${SECRET_DOMAIN}"
               paths:
                 - path: /
                   pathType: Prefix
           tls:
             - hosts:
-                - "hass-config.${SECRET_DOMAIN}"
+                - "hass-config.home.${SECRET_DOMAIN}"
               secretName: tls-cert
         volumeMounts:
           - name: config
