@@ -31,21 +31,22 @@ spec:
       NODE_RED_ENABLE_SAFE_MODE: "false"
 
     ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: traefik
-        traefik.ingress.kubernetes.io/frontend-entry-points: http,https
-        traefik.ingress.kubernetes.io/redirect-entry-point: https
-        traefik.ingress.kubernetes.io/redirect-permanent: "true"
-      hosts:
-      - host: "node-red.home.${SECRET_DOMAIN}"
-        paths:
-        - path: /
-          pathType: Prefix
-      tls:
-      - secretName: tls-cert
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+          traefik.ingress.kubernetes.io/redirect-entry-point: https
+          traefik.ingress.kubernetes.io/redirect-permanent: "true"
         hosts:
-        - node-red.home.${SECRET_DOMAIN}
+        - host: "node-red.home.${SECRET_DOMAIN}"
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - secretName: tls-cert
+          hosts:
+          - node-red.home.${SECRET_DOMAIN}
 
     persistence:
       data:
