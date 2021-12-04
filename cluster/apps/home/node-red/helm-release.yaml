@@ -1,0 +1,68 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: node-red
+  namespace: home
+spec:
+  dependsOn:
+  - name: nfs-subdir-external-provisioner
+    namespace: storage
+  - name: home-assistant
+    namespace: home
+  interval: 5m
+  chart:
+    spec:
+      chart: node-red
+      version: 9.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/node-red
+      tag: v2.1.4
+
+    env:
+      TZ: ${CONFIG_TZ}
+      FLOWS: flows.json
+      NODE_RED_ENABLE_PROJECTS: "true"
+      NODE_RED_ENABLE_SAFE_MODE: "false"
+
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+        traefik.ingress.kubernetes.io/redirect-entry-point: https
+        traefik.ingress.kubernetes.io/redirect-permanent: "true"
+      hosts:
+      - host: "node-red.home.${SECRET_DOMAIN}"
+        paths:
+        - path: /
+          pathType: Prefix
+      tls:
+      - secretName: tls-cert
+        hosts:
+        - node-red.home.${SECRET_DOMAIN}
+
+    persistence:
+      data:
+        enabled: true
+        mountPath: /data
+        storageClass: nas-nfs
+        accessMode: ReadWriteOnce
+        size: 5Gi
+
+    nodeSelector:
+      kubernetes.io/arch: amd64
+      # node-role.kubernetes.io/application: "true"
+
+    resources:
+      requests:
+        memory: 350Mi
+        cpu: 25m
+      limits:
+        memory: 500Mi
+        cpu: 1000m
