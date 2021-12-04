@@ -5,4 +5,3 @@ resources:
   - crds.yaml
   - https://github.com/rancher/system-upgrade-controller/releases/download/v0.8.0/system-upgrade-controller.yaml
   - k3s-plan.yaml
-  - raspi-os-bullseye
