@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: ricoberger
+  name: hashicorp-charts
   namespace: flux-system
 spec:
   interval: 15m
-  url: https://ricoberger.github.io/helm-charts
+  url: https://helm.releases.hashicorp.com
   timeout: 3m
