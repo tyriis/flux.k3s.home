@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
 - namespaces
 - storageclasses
+- tls-certs
 - system-upgrade
 - nfs-subdir-external-provisioner

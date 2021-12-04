@@ -1,0 +1,271 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: home
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: home-assistant
+      version: 11.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: ghcr.io/home-assistant/home-assistant
+      tag: 2021.11.5
+    env:
+      TZ: ${CONFIG_TZ}
+    # envFrom:
+    #   - secretRef:
+    #       name: home-assistant
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    service:
+      main:
+        type: ClusterIP
+        port: 8123
+        portName: api
+        # externalIPs:
+        #   - "${SVC_HOME_ASSISTANT_ADDR}"
+        # externalTrafficPolicy: Local
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+          traefik.ingress.kubernetes.io/redirect-entry-point: https
+          traefik.ingress.kubernetes.io/redirect-permanent: "true"
+        hosts:
+          - host: "hass.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "hass.${SECRET_DOMAIN}"
+            secretName: tls-cert
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    persistence:
+      config:
+        enabled: true
+        existingClaim: home-assistant-data
+    # podAnnotations:
+    #   secret.reloader.stakater.com/reload: "home-assistant"
+    addons:
+      codeserver:
+        enabled: true
+        image:
+          repository: ghcr.io/k8s-at-home/code-server
+          tag: v3.12.0
+        # git:
+        #   deployKeySecret: code-server
+        workingDir: "/config"
+        args:
+          - --auth
+          - "none"
+          - --user-data-dir
+          - "/config/.vscode"
+          - --extensions-dir
+          - "/config/.vscode"
+        ingress:
+          enabled: true
+          hosts:
+            - host: "hass-config.${SECRET_DOMAIN}"
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - hosts:
+                - "hass-config.${SECRET_DOMAIN}"
+              secretName: tls-cert
+        volumeMounts:
+          - name: config
+            mountPath: /config
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 4000Mi
+
+# affinity: {}
+# appdaemon:
+#   enabled: false
+#   extraEnv: {}
+#   image:
+#     pullPolicy: IfNotPresent
+#     repository: acockburn/appdaemon
+#     tag: 3.0.5
+#   ingress:
+#     annotations: {}
+#     enabled: false
+#     hosts:
+#     - appdaemon.local
+#     path: /
+#     tls: []
+#   service:
+#     annotations: {}
+#     clusterIP: ""
+#     externalIPs: []
+#     labels: {}
+#     loadBalancerIP: ""
+#     loadBalancerSourceRanges: []
+#     port: 5050
+#     type: ClusterIP
+# configurator:
+#   basepath: /config
+#   enabled: false
+#   enforceBasepath: true
+#   extraEnv: {}
+#   image:
+#     pullPolicy: IfNotPresent
+#     repository: causticlab/hass-configurator-docker
+#     tag: 0.3.5-x86_64
+#   ingress:
+#     annotations: {}
+#     enabled: false
+#     hosts:
+#     - home-assistant.local
+#     path: /
+#     tls: []
+#   service:
+#     annotations: {}
+#     clusterIP: ""
+#     externalIPs: []
+#     labels: {}
+#     loadBalancerIP: ""
+#     loadBalancerSourceRanges: []
+#     port: 3218
+#     type: ClusterIP
+# extraEnv: {}
+# extraSecretForEnvFrom: []
+# extraVolumeMounts: []
+# extraVolumes: []
+# git:
+#   enabled: false
+#   image:
+#     pullPolicy: IfNotPresent
+#     repository: causticlab/hass-configurator-docker
+#     tag: 0.3.5-x86_64
+#   keyPath: /root/.ssh
+#   secret: git-creds
+#   syncPath: /config
+#   user:
+#     email: ""
+#     name: ""
+# hostMounts: []
+# hostNetwork: true
+# image:
+#   pullPolicy: Always
+#   pullSecrets: []
+#   repository: homeassistant/home-assistant
+#   tag: stable
+# ingress:
+#   annotations:
+#     kubernetes.io/ingress.class: traefik
+#     traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+#     traefik.ingress.kubernetes.io/redirect-entry-point: https
+#     traefik.ingress.kubernetes.io/redirect-permanent: "true"
+#   enabled: true
+#   hosts:
+#   - hass.k8s.home
+#   path: /
+#   tls:
+#   - hosts:
+#     - hass.k8s.home
+#     secretName: k8s-home-cert
+# monitoring:
+#   enabled: false
+#   serviceMonitor:
+#     enabled: true
+# nodeSelector: {}
+# persistence:
+#   accessMode: ReadWriteOnce
+#   enabled: true
+#   existingClaim: home-assistant-data
+#   size: 10Gi
+#   storageClass: manual
+# podAnnotations: {}
+# probes:
+#   liveness:
+#     enabled: true
+#     failureThreshold: 5
+#     initialDelaySeconds: 60
+#     scheme: HTTP
+#     timeoutSeconds: 10
+#   readiness:
+#     enabled: true
+#     failureThreshold: 5
+#     initialDelaySeconds: 60
+#     scheme: HTTP
+#     timeoutSeconds: 10
+#   startup:
+#     enabled: false
+#     failureThreshold: 30
+#     periodSeconds: 10
+#     scheme: HTTP
+# resources: {}
+# service:
+#   additionalPorts: []
+#   annotations: {}
+#   clusterIP: ""
+#   externalIPs: []
+#   labels: {}
+#   loadBalancerIP: ""
+#   loadBalancerSourceRanges: []
+#   port: 8123
+#   portName: api
+#   publishNotReadyAddresses: false
+#   type: ClusterIP
+# strategyType: Recreate
+# tolerations: []
+# usePodSecurityContext: true
+# vscode:
+#   enabled: true
+#   extraEnv: {}
+#   hassConfig: /config
+#   image:
+#     pullPolicy: Always
+#     repository: codercom/code-server
+#     tag: latest
+#   ingress:
+#     annotations:
+#       kubernetes.io/ingress.class: traefik
+#       traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+#       traefik.ingress.kubernetes.io/redirect-entry-point: https
+#       traefik.ingress.kubernetes.io/redirect-permanent: "true"
+#     enabled: true
+#     hosts:
+#     - code.hass.k8s.home
+#     path: /
+#     tls:
+#     - hosts:
+#       - code.hass.k8s.home
+#       secretName: k8s-home-cert
+#   service:
+#     annotations: {}
+#     clusterIP: ""
+#     externalIPs: []
+#     labels: {}
+#     loadBalancerIP: ""
+#     loadBalancerSourceRanges: []
+#     port: 8124
+#     type: ClusterIP
+#   vscodePath: /config/.vscode
+# zwave:
+#   device: ttyACM0
+#   enabled: false
