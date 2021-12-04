@@ -8,3 +8,4 @@ resources:
 - nfs-subdir-external-provisioner.yaml
 - prometheus-community.github.io.yaml
 - ricoberger.github.io.yaml
+- itzg.github.io.yaml

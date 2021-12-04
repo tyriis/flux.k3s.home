@@ -5,4 +5,4 @@ metadata:
   namespace: flux-system
   name: cluster-settings
 data:
-  TZ: Europe/Vienna
+  SETTING_TZ: Europe/Vienna
