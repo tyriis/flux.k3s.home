@@ -1,0 +1,12 @@
+certs/**
+# Editors
+.vscode/
+# Trash
+.DS_Store
+Thumbs.db
+# k8s
+kubeconfig
+# vscode-sops
+.decrypted~*.yaml
+
+.env

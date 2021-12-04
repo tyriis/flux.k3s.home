@@ -1,0 +1,40 @@
+# yamllint disable
+apiVersion: v1
+kind: Secret
+metadata:
+    name: flux-notifications-webhook-url
+    namespace: flux-system
+data:
+    address: ENC[AES256_GCM,data:SpMeTm8u0UyqnweKGfJ46ljdWMq8O+uOBUh1bvFnUA+YaIfp+fcvSjY5vNSlyrDcrAoooU5fFtSlqulPFHzW4FwebtMah6NQxYjKnOMS90kDsL0m/zj9Ct8PgfQ9lp99UZdW2Z6qFz0kuBliJELb48n2hz2cgN8fhD4mYzCt9llbXe4Cb4js4D+y7U+GCoYMteamUM3yIBHdr+W/RyFR3A==,iv:upltFQlSkN/o8PgMJR8zZaCo0IZgTYd9WO4uf+A5o3A=,tag:xuFIPDOrzvWw2NhJZ0cf0g==,type:str]
+type: Opaque
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-11-02T20:18:43Z"
+    mac: ENC[AES256_GCM,data:A7bRn3ObizIxRpoMYgEl6jgSMVB+mPF5brL8yzDJAWc81ywCoZFCDCLFn3QJXaet0eXKQA+WwlwWhFhpCqqo6YDF6yi3juVJBAajbY8vykRx4gsBHPRLaBmkxve5minbnJVzWy7PzOYreLTCt8Bhlvzv4KpFC/rvG39Z0YsWD4Y=,iv:y7zNOISm9boT29gt9PQzW5Wk/2k2T1sYrszt4oksBPM=,tag:zFuwhHGf1CgR19sT7jXjXg==,type:str]
+    pgp:
+        - created_at: "2021-11-02T20:18:19Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAw9wKWM7W8MAARAAnCoTpNw4Zs3pMaWyoITHy64+x6eLH/NzyGX2G1xL/b+d
+            0oy2ZwkBz4uRQEg2Mf6uN86hR6WgMyDo9HHtUT1WFM/tytIRrqQk0zbosYzmfpBw
+            6AGMOT55ba5dMieZZlBu5l9mnr6ttxnsNkg6ylWTCK2OCONo51AoIJhOiAfPVZcn
+            BbFqywccQRGi/CWL4eXhexZwuaDEFWThiRi+8PKlMNOCGztXIvpecSxGMb/pnCn0
+            KIMwuXrVe68VZJ+I/QhDmYrZsmmAJXwUPo97GLre9wCVwXmAmRuQUMFtDwOHm738
+            g3/iLgiab6yACly2eaRc1cyZSjehMFBNvqBJK3rxCOIDUbTJbgj2xNS37WiGspGx
+            HKTaWbDsKyAg7SiuIGF8PuPpqLzmB9i+I8ZyGGO4teRUk8YOkOWJZRSmPCYB10bR
+            fNWoJylQzJOo8pOzqVpcKfiKS1/LhbHxY5xVcNbC2bNKYhj8gN1ZTnX1eVzpl+dj
+            /puoPHzZAwBMTpNvvM7lI3lEqeR5hYtEpI/f2EweLCHc3gOZpQJWwH+JUzU2u4Qp
+            6PyeMUVtH/hJqEWJZLWMuXOrLQk4AZa0SLf0Eif0mUC8CUt2hLyFPMYSn1jk7s9T
+            h4jV9Kh6XgytkD4j02E4RRyFx46mSV7Vx8xFbQDedmRANmylFD70qP9BsYIIpgXS
+            XAFvdkR+DoBGDOPjM67QAUDI8TeRHVtUorPFPD96iZMzd/hCX8kr6tNv6d4ZMZ+t
+            scxr6B/aePBO5ZcEoqL6bbEXFPfhRnjBtnAcZcwaDQZQ7MsYprWVy+2lFdvQ
+            =Rc92
+            -----END PGP MESSAGE-----
+          fp: 1900124F3275C622D268CB0D2DCDE5F0F958D3FF
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
