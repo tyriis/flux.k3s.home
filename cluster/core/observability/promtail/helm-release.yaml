@@ -6,9 +6,9 @@ metadata:
   namespace: observability
 spec:
   interval: 5m
-  # dependsOn:
-  # - name: loki
-  #   namespace: observability
+  dependsOn:
+  - name: loki
+    namespace: observability
   chart:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
@@ -16,7 +16,7 @@ spec:
       version: 3.9.1
       sourceRef:
         kind: HelmRepository
-        name: grafana
+        name: grafana-charts
         namespace: flux-system
   values:
     extraArgs:
