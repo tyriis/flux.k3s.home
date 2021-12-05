@@ -6,6 +6,9 @@ metadata:
   namespace: observability
 spec:
   interval: 5m
+  dependsOn:
+  - name: longhorn
+    namespace: storage
   chart:
     spec:
       chart: kube-prometheus-stack

@@ -9,4 +9,6 @@ resources:
 - nfs-subdir-external-provisioner
 - storage/longhorn
 - observability/kube-prometheus-stack
+- observability/loki
+- observability/promtail
 - observability/grafana
