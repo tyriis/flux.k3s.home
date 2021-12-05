@@ -7,5 +7,5 @@ resources:
 - tls-certs
 - system-upgrade
 - nfs-subdir-external-provisioner
-# - observability/kube-prometheus-stack
+- observability/kube-prometheus-stack
 - storage/longhorn
