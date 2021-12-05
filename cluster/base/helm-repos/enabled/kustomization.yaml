@@ -2,6 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- charts.longhorn.io.yaml
 - grafana.github.io.yaml
 - helm.releases.hashicorp.com.yaml
 - k8s-at-home.com.yaml
