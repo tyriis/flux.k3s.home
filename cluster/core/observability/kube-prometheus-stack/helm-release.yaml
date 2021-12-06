@@ -11,6 +11,7 @@ spec:
     namespace: storage
   chart:
     spec:
+      # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
       version: 21.0.0
       sourceRef:
