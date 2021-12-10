@@ -33,7 +33,7 @@ spec:
               max_age: 12h
               labels:
                 job: systemd-journal
-                cluster: pi-k3s
+                cluster: k3s
             relabel_configs:
               - source_labels: ['__journal__systemd_unit']
                 target_label: 'unit'
@@ -48,7 +48,7 @@ spec:
                   job: dmesg
                   __path__: /var/log/kern.log
                   # hostname: ${HOSTNAME}
-                  cluster: pi-k3s
+                  cluster: k3s
     extraVolumes:
     - name: journal
       hostPath:
