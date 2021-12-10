@@ -69,6 +69,7 @@ spec:
         type: secret
         name: home-assistant-ssh
         mountPath: /root/.ssh
+        readOnly: true
     # podAnnotations:
     #   secret.reloader.stakater.com/reload: "home-assistant"
     # addons:
