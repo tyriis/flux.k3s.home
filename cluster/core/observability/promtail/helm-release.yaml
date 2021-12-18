@@ -33,7 +33,7 @@ spec:
               max_age: 12h
               labels:
                 job: systemd-journal
-                cluster: ${SETTING_CLUSTERNAME}
+                # cluster: ${SETTING_CLUSTERNAME}
             relabel_configs:
               - source_labels: ['__journal__systemd_unit']
                 target_label: 'unit'
@@ -41,14 +41,13 @@ spec:
                 target_label: 'hostname'
               - source_labels: ['__journal_syslog_identifier']
                 target_label: syslog_identifier
-          - job_name: dmesg
-            static_configs:
-              - targets: [localhost]
-                labels:
-                  job: dmesg
-                  __path__: /var/log/kern.log
-                  # hostname: ${HOSTNAME}
-                  cluster: ${SETTING_CLUSTERNAME}
+          # - job_name: dmesg
+          #   static_configs:
+          #     - targets: [localhost]
+          #       labels:
+          #         job: dmesg
+          #         __path__: /var/log/kern.log
+          #         cluster: ${SETTING_CLUSTERNAME}
       file: |
         server:
           log_level: {{ .Values.config.logLevel }}
