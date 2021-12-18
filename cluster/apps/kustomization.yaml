@@ -5,3 +5,4 @@ resources:
   - gaming/minecraft-bedrock
   - home/home-assistant
   - home/node-red
+  # - observability/grafana

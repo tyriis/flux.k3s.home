@@ -11,4 +11,3 @@ resources:
 - observability/kube-prometheus-stack
 - observability/loki
 - observability/promtail
-- observability/grafana
