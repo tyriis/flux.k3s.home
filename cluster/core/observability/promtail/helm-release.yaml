@@ -57,6 +57,12 @@ spec:
         clients:
           - url: {{ tpl .Values.config.lokiAddress . }}
             {{- tpl .Values.config.snippets.extraClientConfigs . | nindent 4 }}
+          - url: ${SECRET_LOKI_ADDRESS}
+            basic_auth:
+              username: ${SECRET_LOKI_BASIC_AUTH_USERNAME}
+              password: ${SECRET_LOKI_BASIC_AUTH_PASSWORD}
+            tls_config:
+              insecure_skip_verify: true
 
         positions:
           filename: /run/promtail/positions.yaml
