@@ -25,7 +25,16 @@ spec:
 
     config:
       lokiAddress: http://loki:3100/loki/api/v1/push
+      # lokiAddress: ${SECRET_LOKI_ADDRESS}
       snippets:
+      #   extraClientConfigs: |
+      #     basic_auth:
+      #       username: ${SECRET_LOKI_BASIC_AUTH_USERNAME}
+      #       password: ${SECRET_LOKI_BASIC_AUTH_PASSWORD}
+      #
+      #    # tls_config:
+      #    #   insecure_skip_verify: true
+
         extraScrapeConfigs: |
           - job_name: journal
             journal:
@@ -49,6 +58,21 @@ spec:
                   __path__: /var/log/kern.log
                   # hostname: ${HOSTNAME}
                   cluster: k3s
+      file: |
+        server:
+          log_level: {{ .Values.config.logLevel }}
+          http_listen_port: {{ .Values.config.serverPort }}
+
+        clients:
+          - url: {{ tpl .Values.config.lokiAddress . }}
+          - {{- tpl .Values.config.snippets.extraClientConfigs . | nindent 2 }}
+
+        positions:
+          filename: /run/promtail/positions.yaml
+
+        scrape_configs:
+          {{- tpl .Values.config.snippets.scrapeConfigs . | nindent 2 }}
+          {{- tpl .Values.config.snippets.extraScrapeConfigs . | nindent 2 }}
     extraVolumes:
     - name: journal
       hostPath:
