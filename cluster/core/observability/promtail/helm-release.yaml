@@ -65,7 +65,7 @@ spec:
 
         clients:
           - url: {{ tpl .Values.config.lokiAddress . }}
-          - {{- tpl .Values.config.snippets.extraClientConfigs . | nindent 2 }}
+          - {{- tpl .Values.config.snippets.extraClientConfigs . | nindent 4 }}
 
         positions:
           filename: /run/promtail/positions.yaml
