@@ -33,6 +33,8 @@ spec:
     grafana.ini:
       server:
         root_url: "https://grafana.home.${SECRET_DOMAIN}"
+      users:
+        auto_assign_org_role: "Admin"
       auth.google:
         enabled: true
         client_id: "${SECRET_GRAFANA_OAUTH_CLIENT_ID}"
