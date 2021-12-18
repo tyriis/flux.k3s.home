@@ -20,7 +20,7 @@ spec:
         namespace: flux-system
   values:
     extraArgs:
-    - -client.external-labels=hostname=$(HOSTNAME),cluster=${SETTINGS_CLUSTERNAME}
+    - -client.external-labels=hostname=$(HOSTNAME),cluster=${SETTING_CLUSTERNAME}
     - -config.expand-env
 
     config:
@@ -33,7 +33,7 @@ spec:
               max_age: 12h
               labels:
                 job: systemd-journal
-                cluster: ${SETTINGS_CLUSTERNAME}
+                cluster: ${SETTING_CLUSTERNAME}
             relabel_configs:
               - source_labels: ['__journal__systemd_unit']
                 target_label: 'unit'
@@ -48,7 +48,7 @@ spec:
                   job: dmesg
                   __path__: /var/log/kern.log
                   # hostname: ${HOSTNAME}
-                  cluster: ${SETTINGS_CLUSTERNAME}
+                  cluster: ${SETTING_CLUSTERNAME}
       file: |
         server:
           log_level: {{ .Values.config.logLevel }}
