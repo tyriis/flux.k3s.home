@@ -126,6 +126,15 @@ spec:
           storageClass: longhorn
           size: 10Gi
       # debug: true
+    postgresql:
+      enabled: true
+      postgresqlUsername: ${SECRET_HASS_DB_USERNAME}
+      postgresqlPassword: ${SECRET_HASS_DB_PASSWORD}
+      postgresqlDatabase: ${SECRET_HASS_DB_NAME}
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 10Gi
 
 # affinity: {}
 # appdaemon:
