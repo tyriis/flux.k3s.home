@@ -113,7 +113,7 @@ spec:
         cpu: 2000m
 
     mariadb:
-      enabled: true
+      enabled: false
       architecture: standalone
       auth:
         database: ${SECRET_HASS_DB_NAME}
@@ -123,7 +123,7 @@ spec:
       primary:
         persistence:
           enabled: true
-          storageClass: local-path
+          storageClass: longhorn
           size: 10Gi
       # debug: true
 
