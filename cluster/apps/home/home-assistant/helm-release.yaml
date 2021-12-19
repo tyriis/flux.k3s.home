@@ -123,8 +123,9 @@ spec:
       primary:
         persistence:
           enabled: true
-          storageClass: longhorn
+          storageClass: local-path
           size: 10Gi
+      # debug: true
 
 # affinity: {}
 # appdaemon:
