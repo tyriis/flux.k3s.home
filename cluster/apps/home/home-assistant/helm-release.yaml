@@ -107,9 +107,24 @@ spec:
     resources:
       requests:
         cpu: 100m
-        memory: 100Mi
+        memory: 600Mi
       limits:
-        memory: 4000Mi
+        memory: 1024Mi
+        cpu: 2000m
+
+    mariadb:
+      enabled: true
+      architecture: standalone
+      auth:
+        database: ${SECRET_HASS_DB_NAME}
+        username: ${SECRET_HASS_DB_USERNAME}
+        password: ${SECRET_HASS_DB_PASSWORD}
+        rootPassword: ${SECRET_HASS_DB_ROOT_PASSWORD}
+      primary:
+        persistence:
+          enabled: true
+          storageClass: longhorn
+          size: 10Gi
 
 # affinity: {}
 # appdaemon:
