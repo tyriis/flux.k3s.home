@@ -21,8 +21,9 @@ spec:
       ENABLE_AUTOPAUSE: TRUE
 
     persistence:
-      storageClass: nas-nfs
+      storageClass: manual
       dataDir:
+        existingClaim: minecraft-java-data
         enabled: true
         Size: 10Gi
 
