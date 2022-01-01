@@ -3,6 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - gaming/minecraft-bedrock
+  - gaming/minecraft-java
   - home/home-assistant
   - home/node-red
   # - observability/grafana
