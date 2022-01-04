@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: scanservjs
     app.kubernetes.io/instance: scanservjs
 spec:
-  hostNetwork: true
+  # hostNetwork: true
   replicas: 1
   selector:
     matchLabels:
@@ -22,12 +22,13 @@ spec:
       containers:
       - name: scanservjs
         image: sbs20/scanservjs:release-v2.19.0
+        allowPrivilegeEscalation: true
         #image: itsthejb/scanservjs
-        securityContext:
-          privileged: true
-          capabilities:
-            add:
-            - CAP_SYS_ADMIN
+        # securityContext:
+        #   privileged: true
+        #   capabilities:
+        #     add:
+        #     - CAP_SYS_ADMIN
         ports:
         - containerPort: 8080
           name: http
