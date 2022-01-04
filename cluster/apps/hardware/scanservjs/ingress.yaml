@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: scanservjs
+  namespace: hardware
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+    traefik.ingress.kubernetes.io/redirect-entry-point: https
+    traefik.ingress.kubernetes.io/redirect-permanent: "true"
+  labels:
+    app.kubernetes.io/name: scanservjs
+    app.kubernetes.io/instance: scanservjs
+spec:
+  rules:
+  - host: "scan.home.${SECRET_DOMAIN}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: scanservjs
+            port:
+              name: http
+
+  tls:
+  - secretName: tls-cert
+    hosts:
+    - "scan.home.${SECRET_DOMAIN}"
