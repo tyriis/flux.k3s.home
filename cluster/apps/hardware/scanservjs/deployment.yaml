@@ -18,6 +18,7 @@ spec:
         app.kubernetes.io/name: scanservjs
         app.kubernetes.io/instance: scanservjs
     spec:
+      hostNetwork: true
       containers:
       - name: scanservjs
         image: sbs20/scanservjs:release-v2.19.1
