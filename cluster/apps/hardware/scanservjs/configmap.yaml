@@ -4,4 +4,4 @@ metadata:
   name: scanservjs
   namespace: hardware
 data:
-  SANED_NET_HOSTS: ${SECRET_SCANNER_IP}
+  AIRSCAN_DEVICES: '"HP" = "http://${SECRET_SCANNER_IP}/eSCL"'
