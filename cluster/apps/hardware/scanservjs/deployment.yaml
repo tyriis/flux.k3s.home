@@ -22,8 +22,8 @@ spec:
       - name: scanservjs
         # image: sbs20/scanservjs:release-v2.19.1
         image: itsthejb/scanservjs
-        # securityContext:
-        #   privileged: true
+        securityContext:
+          privileged: true
         ports:
         - containerPort: 8080
           name: http
