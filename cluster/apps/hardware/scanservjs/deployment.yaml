@@ -20,8 +20,8 @@ spec:
     spec:
       containers:
       - name: scanservjs
-        # image: sbs20/scanservjs:release-v2.19.1
-        image: itsthejb/scanservjs
+        image: sbs20/scanservjs:release-v2.18.0
+        #image: itsthejb/scanservjs
         securityContext:
           privileged: true
           capabilities:
