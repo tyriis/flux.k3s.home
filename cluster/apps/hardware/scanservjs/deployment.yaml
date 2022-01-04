@@ -24,6 +24,9 @@ spec:
         image: itsthejb/scanservjs
         securityContext:
           privileged: true
+          capabilities:
+            add:
+            - CAP_SYS_ADMIN
         ports:
         - containerPort: 8080
           name: http
