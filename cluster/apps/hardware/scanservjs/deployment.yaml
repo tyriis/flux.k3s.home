@@ -33,14 +33,14 @@ spec:
         volumeMounts:
         - name: scans
           mountPath: /app/data/output
-        # - name: dbus
-        #   mountPath: /var/run/dbus
-        #   readOnly: false
+        - name: dbus
+          mountPath: /var/run/dbus
+          readOnly: false
       volumes:
       - name: scans
         persistentVolumeClaim:
           claimName: scanservjs-scans
-      # - name: dbus
-      #   hostPath:
-      #     path: /var/run/dbus
-      #     type: ''
+      - name: dbus
+        hostPath:
+          path: /var/run/dbus
+          type: ''
