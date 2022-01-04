@@ -6,4 +6,5 @@ resources:
   - gaming/minecraft-java
   - home/home-assistant
   - home/node-red
+  - hardware/scanservjs
   # - observability/grafana
