@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager-discord
+  namespace: observability
+  labels:
+    app.kubernetes.io/name: alertmanager-discord
+    app.kubernetes.io/instance: alertmanager-discord
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alertmanager-discord
+      app.kubernetes.io/instance: alertmanager-discord
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alertmanager-discord
+        app.kubernetes.io/instance: alertmanager-discord
+    spec:
+      tolerations:
+      # this toleration is to have the deployment runnable on master nodes
+      # remove it if your masters can't run pods
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: alertmanager-discord
+        image: rogerrum/alertmanager-discord:1.0.3
+        ports:
+        - containerPort: 9094
+          name: webhook
+          protocol: TCP
+        env:
+        - name: DISCORD_WEBHOOK
+          value: "${SECRET_DISCORD_WEBHOOK}"
+        - name: DISCORD_USERNAME
+          value: ${SETTING_CLUSTERNAME}
+        - name: DISCORD_AVATAR_URL
+          value: https://cdn.discordapp.com/avatars/713481031768080388/42664c45ca584e00b0fb8468301b2a62.png
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 100m
+            memory: 32Mi
+          requests:
+            cpu: 10m
+            memory: 8Mi
+      terminationGracePeriodSeconds: 30

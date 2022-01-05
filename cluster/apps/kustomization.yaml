@@ -9,5 +9,6 @@ resources:
   - hardware/scanservjs
   # - observability/grafana
   - observability/kube-prometheus-stack
+  - observability/alermanager-discord
   - observability/promtail
   - observability/loki
