@@ -8,6 +8,3 @@ resources:
 - system-upgrade
 - nfs-subdir-external-provisioner
 - storage/longhorn
-- observability/kube-prometheus-stack
-- observability/loki
-- observability/promtail

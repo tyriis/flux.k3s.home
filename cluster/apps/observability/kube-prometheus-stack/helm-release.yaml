@@ -1,0 +1,152 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: observability
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      version: 27.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+  timeout: 10m
+  values:
+    prometheus:
+      prometheusSpec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: NotIn
+                  values:
+                  - "true"
+                - key: node.kubernetes.io/hostname
+                  operator: In
+                  values:
+                  - k3s-node04
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 500m
+          limits:
+            memory: 4096Mi
+            cpu: 3500m
+        ruleSelector: {}
+        ruleNamespaceSelector: {}
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelector: {}
+        serviceMonitorNamespaceSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelector: {}
+        podMonitorNamespaceSelector: {}
+        podMonitorSelectorNilUsesHelmValues: false
+        retention: 14d
+        enableAdminAPI: true
+        walCompression: true
+
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: local-path
+              resources:
+                requests:
+                  storage: 10Gi
+
+    alertmanager:
+      alertmanagerSpec:
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: local-path
+              resources:
+                requests:
+                  storage: 10Gi
+
+      config:
+        global:
+          resolve_timeout: 5m
+        route:
+          group_by:
+          - alertname
+          - job
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 3h
+          receiver: discord_webhook
+          routes:
+          - receiver: 'null'
+            match:
+              alertname: Watchdog
+
+        receivers:
+        - name: 'null'
+        - name: discord_webhook
+          webhook_configs:
+          - url: http://alertmanager-discord.observability.svc.cluster.local:9094
+        templates:
+        - /etc/alertmanager/config/*.tmpl
+
+    nodeExporter:
+      enabled: true
+
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          # lens ide config
+          relabelings:
+          - action: replace
+            regex: (.*)
+            replacement: $1
+            sourceLabels:
+            - __meta_kubernetes_pod_node_name
+            targetLabel: kubernetes_node
+
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      selfMonitor:
+        enabled: true
+      prometheus:
+        monitor:
+          enabled: true
+
+    grafana:
+      enabled: false
+      forceDeployDashboards: false
+
+    kubelet:
+      enabled: true
+      serviceMonitor:
+        # lens ide config
+        metricRelabelings:
+        - action: replace
+          sourceLabels:
+          - node
+          targetLabel: instance
+
+    kubeApiServer:
+      enabled: true
+
+    kubeControllerManager:
+      enabled: false
+
+    kubeScheduler:
+      enabled: false
+
+    kubeProxy:
+      enabled: false
+
+    kubeEtcd:
+      enabled: false
+
+    coreDns:
+      enabled: true

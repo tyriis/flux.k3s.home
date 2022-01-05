@@ -8,3 +8,6 @@ resources:
   - home/node-red
   - hardware/scanservjs
   # - observability/grafana
+  - observability/kube-prometheus-stack
+  - observability/promtail
+  - observability/loki
